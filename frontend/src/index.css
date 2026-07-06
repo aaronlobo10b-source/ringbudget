@@ -1,8 +1,2 @@
-body {
-  margin: 0;
-  background: #111827;
-}
-
-* {
-  box-sizing: border-box;
-}
+/* Main stylesheet - design system is imported here */
+@import "./design.css";
