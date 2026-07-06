@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: ringbudget-api
+    env: python
+    plan: free
+    runtime: python-3.13
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn budget_tracker.app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.7
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_PUBLISHABLE_KEY
+        sync: false
+
+  - type: static_site
+    name: ringbudget-frontend
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://ringbudget-api.onrender.com

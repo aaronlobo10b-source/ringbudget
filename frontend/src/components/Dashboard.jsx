@@ -4,6 +4,9 @@ import MainChat from "./MainChat";
 import { formatCurrency, toSafeNumber } from "../utils/formatters";
 import "../design.css";
 
+// Use environment variable for API URL, fallback to localhost for development
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+
 function Dashboard() {
     const [summary, setSummary] = useState(null);
     const [error, setError] = useState("");
@@ -18,7 +21,7 @@ function Dashboard() {
 
     async function loadSummary() {
         try {
-            const response = await fetch("http://127.0.0.1:8000/today");
+            const response = await fetch(`${API_URL}/today`);
             if (!response.ok) {
                 throw new Error("Unable to load dashboard data");
             }
