@@ -122,6 +122,7 @@ def safe_daily_spend():
 
 def get_category_breakdown():
     rings = {}
+    expenses = get_expenses()
 
     for c in get_category_budgets():
         rings[c["category"]] = {
@@ -131,10 +132,12 @@ def get_category_breakdown():
             "percentage": 0
         }
 
-    for e in get_expenses():
+    for e in expenses:
         cat = e["category"]
         if cat in rings:
             rings[cat]["spent"] += float(e["amount"])
+
+    total_spent = sum(rings[cat]["spent"] for cat in rings)
 
     for cat in rings:
         allocated = rings[cat]["allocated"]
@@ -142,8 +145,10 @@ def get_category_breakdown():
 
         rings[cat]["remaining"] = max(allocated - spent, 0)
 
-        if allocated > 0:
-            rings[cat]["percentage"] = round((spent / allocated) * 100, 1)
+        if total_spent > 0:
+            rings[cat]["percentage"] = round((spent / total_spent) * 100, 1)
+        else:
+            rings[cat]["percentage"] = 0
 
     return rings
 
