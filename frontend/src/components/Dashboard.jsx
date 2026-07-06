@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import BudgetRings from "./BudgetRings";
 import MainChat from "./MainChat";
+import TransactionForm from "./TransactionForm";
 import { formatCurrency, toSafeNumber } from "../utils/formatters";
 import "../design.css";
 
@@ -114,6 +115,11 @@ function Dashboard() {
 
             {/* Budget Rings Section */}
             <BudgetRings isLoading={isLoading} />
+
+            {/* Add Transaction Form */}
+            <div style={{ marginTop: "32px" }}>
+                <TransactionForm onSuccess={loadSummary} />
+            </div>
 
             {/* Chat Section */}
             <div style={{ paddingBottom: "350px" }}>

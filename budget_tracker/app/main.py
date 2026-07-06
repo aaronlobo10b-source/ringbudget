@@ -12,7 +12,8 @@ from .agent import agent
 from .tools import (
     get_budget_summary,
     get_category_breakdown,
-    today_summary
+    today_summary,
+    add_transaction,
 )
 
 app = FastAPI(
@@ -42,6 +43,12 @@ class ChatRequest(BaseModel):
     message: str
 
 
+class TransactionRequest(BaseModel):
+    category: str
+    amount: float
+    description: str = ""
+
+
 # =========================
 # API ENDPOINTS
 # =========================
@@ -60,6 +67,15 @@ def chat(request: ChatRequest):
 
     return {
         "reply": response
+    }
+
+
+@app.post("/transactions")
+def create_transaction(request: TransactionRequest):
+    add_transaction(request.category, request.amount, request.description)
+    return {
+        "success": True,
+        "message": "Transaction recorded successfully."
     }
 
 
